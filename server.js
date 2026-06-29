@@ -3,11 +3,16 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const connectDB = require("./config/db")
-const employeeRoutes = require("./routes/employeeRoutes");
 const app = express();
 
+const employeeRoutes = require("./routes/employeeRoutes");
+const companyRoutes = require("./routes/companyRoutes");
+const authRoutes = require("./routes/authRoutes");
+const createSuperAdmin = require("./seeders/seedSuperAdmin");
 
-connectDB ();
+connectDB().then(async()=>{
+    await createSuperAdmin();
+});
 
 app.use(cors());
 
@@ -24,6 +29,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/employees", employeeRoutes);
+app.use("/api/company", companyRoutes);
+app.use("/api/auth", authRoutes);
 
 
 app.use((req, res) => {

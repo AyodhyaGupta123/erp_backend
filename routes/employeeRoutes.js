@@ -1,6 +1,7 @@
 const express = require("express");
-
 const router = express.Router();
+
+const protect = require("../middleware/authMiddleware");
 
 const {
     createEmployee,
@@ -13,20 +14,20 @@ const {
     getEmployeesByStatus
 } = require("../controllers/employeeController");
 
-router.post("/", createEmployee);
+router.post("/", protect, createEmployee);
 
-router.get("/", getAllEmployees);
+router.get("/", protect, getAllEmployees);
 
-router.get("/active", getActiveEmployees);
+router.get("/active", protect, getActiveEmployees);
 
-router.get("/department/:department", getEmployeesByDepartment);
+router.get("/department/:department", protect, getEmployeesByDepartment);
 
-router.get("/status/:status", getEmployeesByStatus);
+router.get("/status/:status", protect, getEmployeesByStatus);
 
-router.get("/:id", getEmployeeById);
+router.get("/:id", protect, getEmployeeById);
 
-router.put("/:id", updateEmployee);
+router.put("/:id", protect, updateEmployee);
 
-router.delete("/:id", deleteEmployee);
+router.delete("/:id", protect, deleteEmployee);
 
 module.exports = router;
